@@ -1,0 +1,57 @@
+----------------------------------------------------- TERZO ESERCIZIO ----------------------------------------------------------------------------------------------------------------------------
+Adesso iniziamo a introdurre le operazioni.
+Per fare questo introduciamo due nuovi pacchetti.
+Qualsiasi pacchetto con ID di tipo diverso da 4 rappresenta un operatore che esegue dei calcoli su uno o più sottopacchetti contenuti all'interno. In questo momento, le operazioni specifiche non sono importanti; concentrarsi sull'analisi della gerarchia dei sottopacchetti.
+Un pacchetto operatore contiene uno o più pacchetti. Per indicare quali dati binari successivi rappresentano i suoi sottopacchetti, un pacchetto operatore può utilizzare una delle due modalità indicate dal bit immediatamente dopo l'intestazione del pacchetto; questo è chiamato ID del tipo di lunghezza:
+
+    Se l'ID del tipo di lunghezza è 0, i successivi 15 bit sono un numero che rappresenta la lunghezza totale in bit dei sottopacchetti contenuti in questo pacchetto.
+    Se l'ID del tipo di lunghezza è 1, i successivi 11 bit sono un numero che rappresenta il numero di sottopacchetti immediatamente contenuti da questo pacchetto.
+
+
+Infine, dopo il bit ID del tipo di lunghezza e il campo 15 bit o 11 bit, vengono visualizzati i sottopacchetti.
+
+
+Ad esempio, ecco un pacchetto operatore (stringa esadecimale 38006F45291200) con tipo di lunghezza ID 0 che contiene due sottopacchetti:
+
+001110000000000001101111101000101001010010001001000000000
+VVVTTTILLLLLLLLLLLLLLLAAAAAAAAAAABBBBBBBBBBBBBBBBBB
+
+    I tre bit etichettati V (001) sono la versione del pacchetto, 1.
+    I tre bit etichettati con T (110) sono l'ID del tipo di pacchetto, 6, il che significa che il pacchetto è un operatore.
+    Il bit etichettato I (0) è l'ID del tipo di lunghezza, che indica che la lunghezza è un numero a 15 bit che rappresenta il numero di bit nei sottopacchetti.
+    I 15 bit etichettati L (000000000011011) contengono la lunghezza dei sottopacchetti in bit, 27.
+    Gli 11 bit etichettati A contengono il primo sottopacchetto, un valore letterale che rappresenta il numero 10.
+    I 16 bit etichettati B contengono il secondo sottopacchetto, un valore letterale che rappresenta il numero 20.
+
+Dopo aver letto 11 e 16 bit di dati di sottopacchetto, viene raggiunta la lunghezza totale indicata in L (27) e quindi l'analisi di questo pacchetto si interrompe.
+
+Come altro esempio, ecco un pacchetto operatore (stringa esadecimale EE00D40C823060) con tipo di lunghezza ID 1 che contiene tre sottopacchetti:
+
+11101110000000001101010000001100100000100011000001100000
+VVVTTTILLLLLLLLLLLAAAAAAAAAAABBBBBBBBBBBCCCCCCCCCCCCC
+
+    I tre bit etichettati V (111) sono la versione del pacchetto, 7.
+    I tre bit etichettati con T (011) sono l'ID del tipo di pacchetto, 3, il che significa che il pacchetto è un operatore.
+    Il bit etichettato I (1) è l'ID del tipo di lunghezza, che indica che la lunghezza è un numero a 11 bit che rappresenta il numero di sottopacchetti.
+    Gli 11 bit etichettati L (00000000011) contengono il numero di sottopacchetti, 3.
+    Gli 11 bit etichettati A contengono il primo sottopacchetto, un valore letterale che rappresenta il numero 1.
+    Gli 11 bit etichettati B contengono il secondo sottopacchetto, un valore letterale che rappresenta il numero 2.
+    Gli 11 bit etichettati C contengono il terzo sottopacchetto, un valore letterale che rappresenta il numero 3.
+
+Dopo aver letto 3 sottopacchetti completi, viene raggiunto il numero di sottopacchetti indicato in L (3) e quindi l'analisi di questo pacchetto si interrompe.
+
+
+Ecco alcuni altri esempi di codifica :
+
+    8A004A801A8002F478 rappresenta un pacchetto operatore (versione 4) che contiene un pacchetto operatore (versione 1) che contiene un pacchetto operatore (versione 5) che contiene un valore letterale (versione 6); questo pacchetto ha una versione sum di 16.
+    620080001611562C8802118E34 rappresenta un pacchetto operatore (versione 3) che contiene due sottopacchetti; ogni sottopacchetto è un pacchetto operatore che contiene due valori letterali. Questo pacchetto ha una versione sum di 12.
+    C0015000016115A2E0802F182340 ha la stessa struttura dell'esempio precedente, ma il pacchetto più esterno utilizza un ID di tipo di lunghezza diversa. Questo pacchetto ha una versione sum di 23.
+    A0016C880162017C3686B18A3D4780 è un pacchetto operatore che contiene un pacchetto operatore che contiene un pacchetto operatore che contiene cinque valori letterali; ha una versione sum di 31.
+
+
+Quanto e' la somma dei numeri di versione di 
+
+E20D7880532D4E551A5791BD7B8C964C1548CB3EC1FCA41CC00C6D50024400C202A65C00C20257C008AF70024C00810039C00C3002D400A300258040F200D6040093002CC0084003FA52DB8134DE620EC01DECC4C8A5B55E204B6610189F87BDD3B30052C01493E2DC9F1724B3C1F8DC801E249E8D66C564715589BCCF08B23CA1A00039D35FD6AC5727801500260B8801F253D467BFF99C40182004223B4458D2600E42C82D07CC01D83F0521C180273D5C8EE802B29F7C9DA1DCACD1D802469FF57558D6A65372113005E4DB25CF8C0209B329D0D996C92605009A637D299AEF06622CE4F1D7560141A52BC6D91C73CD732153BF862F39BA49E6BA8C438C010E009AA6B75EF7EE53BBAC244933A48600B025AD7C074FEB901599A49808008398142013426BD06FA00D540010C87F0CA29880370E21D42294A6E3BCF0A080324A006824E3FCBE4A782E7F356A5006A587A56D3699CF2F4FD6DF60862600BF802F25B4E96BDD26049802333EB7DDB401795FC36BD26A860094E176006A0200FC4B8790B4001098A50A61748D2DEDDF4C6200F4B6FE1F1665BED44015ACC055802B23BD87C8EF61E600B4D6BAD5800AA4E5C8672E4E401D0CC89F802D298F6A317894C7B518BE4772013C2803710004261EC318B800084C7288509E56FD6430052482340128FB37286F9194EE3D31FA43BACAF2802B12A7B83E4017E4E755E801A2942A9FCE757093005A6D1F803561007A17C3B8EE0008442085D1E8C0109E3BC00CDE4BFED737A90DC97FDAE6F521B97B4619BE17CC01D94489E1C9623000F924A7C8C77EA61E6679F7398159DE7D84C015A0040670765D5A52D060200C92801CA8A531194E98DA3CCF8C8C017C00416703665A2141008CF34EF8019A080390962841C1007217C5587E60164F81C9A5CE0E4AA549223002E32BDCEA36B2E100A160008747D8B705C001098DB13A388803F1AE304600
+
+
+
