@@ -1,0 +1,6 @@
+Versione: 1, Numero: 2
+Versione: 4, Numero: 8
+Versione: 6, Numero: 9
+Versione: 7, Numero: 63
+Versione: 2, Numero: 48
+Versione: 3, Numero: 102
