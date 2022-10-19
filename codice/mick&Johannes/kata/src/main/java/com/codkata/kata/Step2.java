@@ -37,7 +37,7 @@ public class Step2 {
   @RequestMapping(path = "/step2", method = RequestMethod.GET)
   public String esercizio() {
 
-    String hex1 = "304";
+    String hex1 = "725C8E3F8BCF319FB68";
 
     String hex1Binary = calculateBinary(hex1);
     double version = calculateDecimal(hex1Binary.substring(0, 3));
@@ -71,7 +71,7 @@ public class Step2 {
 
   private String calculateDecimalGroups(String string) {
     String finalRes = "";
-    while (string.length() > 5) {
+    while (string.length() >= 5) {
       String group = string.substring(1, 5);
       finalRes += group;
       if (string.length() <= 5) {
