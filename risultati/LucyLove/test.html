@@ -1,0 +1,35 @@
+<html>
+  <head>
+
+  </head>
+  <body>
+    <p>  
+      Cominciamo con qualcosa di semplice per sgranchire i polpastrelli
+      Dato che tutta la codifica si basa su stringhe binarie , e' necessario partire da un metodo che presa una stringa di 1 e 0 ritorni il valore numerico decimale della stringa.
+
+      Vi viene chiesto di decodificare le seguenti stringhe :
+
+      <p id="numero1">11</p> <button onclick="binaryToNumber('11' , 1)">Calcola</button>
+      <p id="numero2">100101100011</p> <button onclick="binaryToNumber('100101100011', 2)">Calcola</button>
+      <p id="numero3">100101001001001100011</p><button onclick="binaryToNumber('100101001001001100011', 3)">Calcola</button>
+      <p id="numero4">100101001001001010010010001000001000100010100011</p><button onclick="binaryToNumber('100101001001001010010010001000001000100010100011', 4)">Calcola</button>
+      
+      
+    </p>
+    
+  </body>
+  <script>
+
+    function binaryToNumber(binaryNumber, numberEx ) {
+      var count = 0;
+      for(var i = binaryNumber.length-1; i > 0; i--){
+        if(binaryNumber[i] == '1') {
+          count += 2 ** i;
+        }
+        
+      }
+     
+      document.getElementById('numero' + numberEx).append(' Risultato = ' + count)
+    }
+  </script>
+</html>
