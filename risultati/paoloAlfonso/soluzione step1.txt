@@ -1,0 +1,14 @@
+----------------------------------------------------- PRIMO ESERCIZIO ----------------------------------------------------------------------------------------------------------------------------
+
+Cominciamo con qualcosa di semplice per sgranchire i polpastrelli
+
+Dato che tutta la codifica si basa su stringhe binarie , e' necessario partire da un metodo che presa una stringa di 1 e 0 ritorni il valore numerico decimale della stringa.
+
+Vi viene chiesto di decodificare le seguenti stringhe :
+
+Numero 11: 3
+Numero 100101100011: 2403
+Numero 100101001001001100011: 1217123
+Numero 100101001001001010010010001000001000100010100011: 163357237741731
+
+
