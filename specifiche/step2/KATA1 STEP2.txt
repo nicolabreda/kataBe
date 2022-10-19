@@ -1,0 +1,54 @@
+Il perfido giovane Architetto vuole giocare un brutto scherzo all'ufficio delle buste paghe.
+---------------------------------------------------- SECONDO ESERCIZIO ----------------------------------------------------------------------------------------------------------------------------
+Il primo passaggio per la decodifica del messaggio consiste nel convertire la rappresentazione esadecimale in binario. Ogni carattere esadecimale corrisponde a quattro bit di dati binari:
+
+0 = 0000
+1 = 0001
+2 = 0010
+3 = 0011
+4 = 0100
+5 = 0101
+6 = 0110
+7 = 0111
+8 = 1000
+9 = 1001
+A = 1010
+B = 1011
+C = 1100
+D = 1101
+E = 1110
+F = 1111
+
+La rappresentazione BITS contiene un singolo pacchetto nel suo strato piu' esterno che a sua volta contiene molti altri pacchetti. La rappresentazione esadecimale di questo pacchetto potrebbe codificare alcuni 0 bit extra alla fine; questi non fanno parte della codifica e dovrebbero essere ignorati.
+
+Ogni pacchetto inizia con un'intestazione standard: i primi tre bit codificano la versione del pacchetto e i tre bit successivi codificano l'ID del tipo di pacchetto. Questi due valori sono numeri; tutti i numeri codificati in qualsiasi pacchetto sono rappresentati come binari con il bit piu' significativo per primo. Ad esempio, una versione codificata come sequenza binaria 100 rappresenta il numero 4.
+
+I pacchetti con ID di tipo 4 rappresentano un valore letterale. I pacchetti di valori letterali codificano un singolo numero binario. Per fare cio', il numero binario viene riempito con zeri iniziali finche' la sua lunghezza non e' un multiplo di quattro bit, quindi viene suddiviso in gruppi di quattro bit. Ogni gruppo e' preceduto da un bit 1 tranne l'ultimo gruppo, che e' preceduto da un bit 0. Questi gruppi di cinque bit seguono immediatamente l'intestazione del pacchetto. Ad esempio, la stringa esadecimale D2FE28 diventa:
+
+1101001011111111000101000
+VVVTTTAAAAABBBBBCCCCC
+
+Sotto ogni bit c'\'e8 un'etichetta che ne indica lo scopo:
+
+    I tre bit etichettati V (110) sono la versione del pacchetto, 6.
+    I tre bit etichettati con T (100) sono l'ID del tipo di pacchetto, 4, il che significa che il pacchetto e' un valore letterale.
+    I cinque bit etichettati A (10111) iniziano con un 1 (non l'ultimo gruppo, continua a leggere) e contengono i primi quattro bit del numero, 0111.
+    I cinque bit etichettati B (11110) iniziano con un 1 (non l'ultimo gruppo, continua a leggere) e contengono altri quattro bit del numero, 1110.
+    I cinque bit etichettati C (00101) iniziano con uno 0 (ultimo gruppo, fine pacchetto) e contengono gli ultimi quattro bit del numero, 0101.
+    I tre bit 0 senza etichetta alla fine sono extra a causa della rappresentazione esadecimale e dovrebbero essere ignorati.
+
+Quindi, questo pacchetto rappresenta un valore letterale con rappresentazione binaria 011111100101, che e' 2021 in decimale.
+
+Come prima cosa proviamo a leggere pacchetti letterali, Vi viene chiesto di decodificare i seguenti numeri indicando per ognuno versione e valore numerico
+
+304
+9227
+D25130
+F31FE66F790C
+52D084A5BA6E69
+725C8E3F8BCF319FB68
+
+
+
+
+
