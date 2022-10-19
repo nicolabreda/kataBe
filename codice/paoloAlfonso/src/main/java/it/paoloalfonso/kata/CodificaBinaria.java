@@ -1,6 +1,5 @@
 package it.paoloalfonso.kata;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,11 +39,11 @@ public class CodificaBinaria {
         return binString;
     }
 
-    public static Pacchetto convertBinaryString(String binaryString) {
+    public static Pacchetto convertBinaryStringToPackage(String binaryString) {
         String version = binaryString.substring(0, 3);
         String type = binaryString.substring(3, 6);
         String message = binaryString.substring(6);
-        return new Pacchetto(calculateDecimalFromBinary(version), calculateDecimalFromBinary(type), message);
+        return new Pacchetto(binaryString, calculateDecimalFromBinary(version), calculateDecimalFromBinary(type), message);
     }
 
     public static Long convertMessageToBinary(String message) {
@@ -53,11 +52,43 @@ public class CodificaBinaria {
         if(message.length() % 5 > 0) numberOfBlocks++;
         for(int i = 0; message.length() % 5 > 0 ? i < numberOfBlocks - 1 : i < numberOfBlocks; i++) {
             String block = message.substring(i * 5, (i + 1) * 5);
-            boolean hasNext = block.substring(0, 1).equals("1");
+            boolean hasNext = block.charAt(0) == '1';
             converted += block.substring(1, 5);
             if(!hasNext) break;
         }
         return Long.parseLong(converted,2);
+    }
+
+    public static Integer translateGenericPackage(String stringToConvert) {
+        String binary = convertHexToBinary(stringToConvert);
+        Pacchetto pacchetto = convertBinaryStringToPackage(binary);
+        Long type = pacchetto.getType();
+        Integer sumVersions = 0;
+        if(type == 4) {
+
+        } else {
+            Integer idLength = Integer.parseInt(pacchetto.getBinaryPackage().substring(6, 7));
+            String binaryPackage = pacchetto.getBinaryPackage();
+            Integer lengthIndex = idLength == 0 ? 22 : 18;
+            Long subPackageLength = calculateDecimalFromBinary(binaryPackage.substring(7, lengthIndex));
+            Boolean isNumeric = false;
+            while(!isNumeric) {
+                String subPackage = binaryPackage.substring(22, subPackageLength.intValue() + 22);
+                Long subPackageVersion = calculateDecimalFromBinary(subPackage.substring(0, 3));
+                Long subPackageType = calculateDecimalFromBinary(subPackage.substring(3, 6));
+                String subPackageMessage = subPackage.substring(6);
+                sumVersions += subPackageVersion.intValue();
+                isNumeric = subPackageType == 4;
+                if(!isNumeric) {
+                    translateGenericPackage(subPackageMessage);
+                }
+            }
+        }
+        return sumVersions;
+    }
+
+    public static Long calculateSubPackageLength(String messageLengthString) {
+        return 0L;
     }
 
 }
