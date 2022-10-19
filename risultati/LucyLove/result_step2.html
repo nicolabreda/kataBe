@@ -1,0 +1,136 @@
+<html>
+<head>
+</head>
+<body>
+<p>
+  Il primo passaggio per la decodifica del messaggio consiste nel convertire la rappresentazione esadecimale in binario. Ogni carattere esadecimale corrisponde a quattro bit di dati binari:
+
+  0 = 0000
+  1 = 0001
+  2 = 0010
+  3 = 0011
+  4 = 0100
+  5 = 0101
+  6 = 0110
+  7 = 0111
+  8 = 1000
+  9 = 1001
+  A = 1010
+  B = 1011
+  C = 1100
+  D = 1101
+  E = 1110
+  F = 1111
+
+  La rappresentazione BITS contiene un singolo pacchetto nel suo strato piu' esterno che a sua volta contiene molti altri pacchetti.
+  La rappresentazione esadecimale di questo pacchetto potrebbe codificare alcuni 0 bit extra alla fine;
+  questi non fanno parte della codifica e dovrebbero essere ignorati.
+
+  Ogni pacchetto inizia con un'intestazione standard:
+  i primi tre bit codificano la versione del pacchetto e i tre bit successivi codificano l'ID del tipo di pacchetto.
+  Questi due valori sono numeri;
+  tutti i numeri codificati in qualsiasi pacchetto sono rappresentati come binari con il bit piu' significativo per primo.
+  Ad esempio, una versione codificata come sequenza binaria 100 rappresenta il numero 4.
+
+  I pacchetti con ID di tipo 4 rappresentano un valore letterale.
+  I pacchetti di valori letterali codificano un singolo numero binario.
+  Per fare cio', il numero binario viene riempito con zeri iniziali finche' la sua lunghezza non e' un multiplo di quattro bit,
+  quindi viene suddiviso in gruppi di quattro bit. Ogni gruppo e' preceduto da un bit 1 tranne l'ultimo gruppo, che e' preceduto da un bit 0.
+  Questi gruppi di cinque bit seguono immediatamente l'intestazione del pacchetto. Ad esempio, la stringa esadecimale D2FE28 diventa:
+
+  1101001011111111000101000
+  VVVTTTAAAAABBBBBCCCCC
+
+  Sotto ogni bit c'\'e8 un'etichetta che ne indica lo scopo:
+
+  I tre bit etichettati V (110) sono la versione del pacchetto, 6.
+  I tre bit etichettati con T (100) sono l'ID del tipo di pacchetto, 4, il che significa che il pacchetto e' un valore letterale.
+  I cinque bit etichettati A (10111) iniziano con un 1 (non l'ultimo gruppo, continua a leggere) e contengono i primi quattro bit del numero, 0111.
+  I cinque bit etichettati B (11110) iniziano con un 1 (non l'ultimo gruppo, continua a leggere) e contengono altri quattro bit del numero, 1110.
+  I cinque bit etichettati C (00101) iniziano con uno 0 (ultimo gruppo, fine pacchetto) e contengono gli ultimi quattro bit del numero, 0101.
+  I tre bit 0 senza etichetta alla fine sono extra a causa della rappresentazione esadecimale e dovrebbero essere ignorati.
+
+  Quindi, questo pacchetto rappresenta un valore letterale con rappresentazione binaria 011111100101, che e' 2021 in decimale.
+
+  Come prima cosa proviamo a leggere pacchetti letterali, Vi viene chiesto di decodificare i seguenti numeri indicando per ognuno versione e valore numerico
+
+  304  --> 001100000100 --> 1
+  9227 --> 1001001000100111 --> 17
+  D25130 --> 110100100110000100110000 --> 316
+  F31FE66F790C --> 111100110001111111100110011011110111100100001100
+  52D084A5BA6E69 --> 01010010110100001000010010100101101110100110111001101001
+  725C8E3F8BCF319FB68 --> 0111001001011100100011100011111110001011110011110011000110011111101101101000
+</body>
+<script>
+
+  const decodifica = {
+    0: '0000',
+    1: '0001',
+    2: '0010',
+    3: '0011',
+    4: '0100',
+    5: '0101',
+    6: '0110',
+    7: '0111',
+    8: '1000',
+    9: '1001',
+    A: '1010',
+    B: '1011',
+    C: '1100',
+    D: '1101',
+    E: '1110',
+    F: '1111'
+  };
+
+  function exaToBinary(inputNumber) {
+    let str = '';
+    for(let i = 0; i < inputNumber.length; i++){
+      str += decodifica[inputNumber[i]];
+    }
+
+    return str;
+  }
+
+  function binaryToNumber (binaryNumber) {
+    let count = 0;
+    let exp = 0;
+    for (let i = binaryNumber.length - 1; i >= 0; i--) {
+      if (binaryNumber[i] === '1'){
+        count += 2 ** exp;
+      }
+      exp++;
+    }
+    return count;
+  }
+
+  function calcolaPacchetti(num) {
+    let count = '';
+    for (let i = 0; i < num.length; i += 5) {
+      if (num[i] === '1') {
+        count += num.substring(i + 1, i + 5);
+      }
+      else {
+        count += num.substring(i + 1, i + 5);
+        break;
+      }
+    }
+    return binaryToNumber(count);
+  }
+
+  const binary = exaToBinary('725C8E3F8BCF319FB68');
+  console.log('binary', binary);
+
+  const version = binaryToNumber(binary.substring(0, 3));
+  console.log('version', version);
+
+  const type = binaryToNumber(binary.substring(3, 6))
+  console.log('type', type);
+
+  const substr = binary.substring(6);
+  console.log(substr);
+
+  const valPacchetto = calcolaPacchetti(substr);
+  console.log(valPacchetto);
+
+</script>
+</html>
