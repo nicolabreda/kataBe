@@ -14,7 +14,7 @@ namespace Step1_CodeKata
                 string binary = String.Join(String.Empty, line.Select(c => Convert.ToString(Convert.ToUInt32(c.ToString(), 16), 2).PadLeft(4, '0')));
 
                 StrParser parser = new StrParser();
-                int num = parser.ParseBinaryLine(binary);
+                long num = parser.ParseBinaryLine(binary);
 
                 int version = Convert.ToInt32(binary.Substring(0, 3), 2);
 

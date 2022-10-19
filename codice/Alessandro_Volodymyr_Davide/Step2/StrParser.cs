@@ -9,7 +9,7 @@ namespace Step1_CodeKata
     class StrParser
     {
 
-        public int ParseBinaryLine(string binary)
+        public long ParseBinaryLine(string binary)
         {
             
             int tipologia = Convert.ToInt32(binary.Substring(3, 3), 2);
